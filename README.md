@@ -124,6 +124,11 @@
                 padding: 6px;
             }
         }
+        @media (max-width: 700px) {
+               .quiz-grid {
+               grid-template-columns: 40% 60%;
+            }
+        }
     </style>
 </head>
 <body>

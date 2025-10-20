@@ -30,7 +30,7 @@
         font-size: 14px;
         white-space: pre-wrap;
         user-select: none;
-        flex: 1 1 clamp(200px, 45%, 300px); /* Responsive width */ 
+        flex: 1 1 300px; 
         max-width: 250px;
         box-sizing: border-box;
     }
@@ -114,13 +114,8 @@
         }
     }
     @media (max-width: 600px) {
-        .container {
-            flex-direction: column;
-            align-items: center;
-        }
         .draggable {
             flex: 1 1 100%;
-            max-width: 90vw;
             padding: 6px;
         }
     }

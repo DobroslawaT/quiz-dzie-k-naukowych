@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Języki Programowania</title>
   <style>
-    :root {
-     --base-font-size: 16px;
-    }
     body {
       font-size: var(--base-font-size);
     }
@@ -32,62 +29,54 @@
       white-space: pre-wrap;
       user-select: none;
     }
-    .quiz-grid {
-      display: flex;
-      justify-content: center;
-      flex-wrap: nowrap; /* Prevent wrapping */
-      overflow-x: auto;   /* Allow horizontal scroll if needed */
-      -webkit-overflow-scrolling: touch;
-      gap: 0px;
-      margin: 0 auto;
+        .quiz-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 0px;
+        max-width: 700px;
+        margin: 0 auto;
     }
-    .column {
-      display: flex;
-      flex-direction: column;
-      gap: 0px; /* No vertical gap between label and dropzone */
-      flex: 1 1 45%;
-      min-width: 150px;
-      max-width: 300px;
-      box-sizing: border-box;
+    .pair {
+        display: contents;
     }
     .label, .dropzone {
-      width: 100%;
-      font-size: clamp(13px, 2vw, 16px); /* Responsive font size */
+        width: 100%;
+        box-sizing: border-box;
+        font-size: clamp(13px, 2vw, 16px);
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
     }
-    .labels .label {
-      font-weight: bold;
-      padding: 10px;
-      background: #f0f0f0;
-      border-radius: 6px;
-      width: 200px;
-      height: 44px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+    .label {
+        background: #f0f0f0;
+        font-weight: bold;
+        border-radius: 6px 0 0 6px;
+        text-align: center;
     }
-    .dropzones .dropzone {
-      border: 2px dashed #ccc;
-      border-radius: 0 0 6px 6px;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: auto;
-      min-height: 60px;
-      max-width: 200px;
+
+    .dropzone {
+        border: 2px dashed #ccc;
+        background: #fff;
+        border-radius: 0 6px 6px 0;
     }
     .dropzone.hovered {
-      border-color: #4a90e2;
-      background: #e6f0ff;
+        border-color: #4a90e2;
+        background: #e6f0ff;
     }
     .correct {
-      border-color: green !important;
-      background-color: #e0ffe0 !important;
+        border-color: green !important;
+        background-color: #e0ffe0 !important;
     }
     .incorrect {
-      border-color: red !important;
-      background-color: #ffe0e0 !important;
+        border-color: red !important;
+        background-color: #ffe0e0 !important;
+    }
+    .labels .label,
+    .dropzones .dropzone,
+    .column {
+        display: none;
     }
     #checkBtn {
       font-size: clamp(14px, 2vw, 18px);
@@ -108,22 +97,17 @@
       font-weight: bold;
     }
     @media (max-width: 900px) {
-      :root {
-        --base-font-size: 15px;
-      }
-      .draggable, .label {
-        width: 45vw;
-        padding: 8px;
-      }
+        .label, .dropzone {
+            font-size: 15px;
+            padding: 8px;
+        }
     }
+
     @media (max-width: 600px) {
-      :root {
-        --base-font-size: 14px;
-      }
-      .draggable, .label {
-        width: 90vw;
-        padding: 6px;
-      }
+        .label, .dropzone {
+            font-size: 14px;
+            padding: 6px;
+        }
     }
 
   </style>
@@ -143,25 +127,36 @@
   </div>
 
   <div class="quiz-grid">
-    <div class="column labels">
-      <div class="label">Python</div>
-      <div class="label">JavaScript</div>
-      <div class="label">Java</div>
-      <div class="label">C#</div>
-      <div class="label">SQL</div>
-      <div class="label">HTML</div>
-      <div class="label">CSS</div>
-    </div>
-    <div class="column dropzones">
-      <div class="dropzone" data-accept="python"></div>
-      <div class="dropzone" data-accept="javascript"></div>
-      <div class="dropzone" data-accept="java"></div>
-      <div class="dropzone" data-accept="csharp"></div>
-      <div class="dropzone" data-accept="sql"></div>
-      <div class="dropzone" data-accept="html"></div>
-      <div class="dropzone" data-accept="css"></div>
-    </div>
+  <div class="pair">
+    <div class="label">Python</div>
+    <div class="dropzone" data-accept="python"></div>
   </div>
+  <div class="pair">
+    <div class="label">JavaScript</div>
+    <div class="dropzone" data-accept="javascript"></div>
+  </div>
+  <div class="pair">
+    <div class="label">Java</div>
+    <div class="dropzone" data-accept="java"></div>
+  </div>
+  <div class="pair">
+    <div class="label">C#</div>
+    <div class="dropzone" data-accept="csharp"></div>
+  </div>
+  <div class="pair">
+    <div class="label">SQL</div>
+    <div class="dropzone" data-accept="sql"></div>
+  </div>
+  <div class="pair">
+    <div class="label">HTML</div>
+    <div class="dropzone" data-accept="html"></div>
+  </div>
+  <div class="pair">
+    <div class="label">CSS</div>
+    <div class="dropzone" data-accept="css"></div>
+  </div>
+</div>
+
 
   <button id="checkBtn">Sprawdź odpowiedzi</button>
   <div id="score"></div>

@@ -116,6 +116,7 @@
             .container {
                 flex-direction: column;
                 align-items: center;
+                gap: 10px;
             }
             .draggable {
                 flex: 1 1 100%;

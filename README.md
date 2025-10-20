@@ -113,6 +113,10 @@
         }
     }
     @media (max-width: 600px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+        }
         .draggable {
             flex: 1 1 100%;
             padding: 6px;

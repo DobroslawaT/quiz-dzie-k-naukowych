@@ -30,7 +30,7 @@
         font-size: 14px;
         white-space: pre-wrap;
         user-select: none;
-        flex: 1 1 300px; 
+        flex: 1 1 clamp(200px, 45%, 300px);
         max-width: 250px;
         box-sizing: border-box;
     }

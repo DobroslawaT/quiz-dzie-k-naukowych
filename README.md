@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz Języki Programowania</title>
   <style>
+    :root {
+     --base-font-size: 16px;
+    }
     body {
-      font-family: sans-serif;
-      background: #f5f7fa;
-      padding: 20px;
+      font-size: var(--base-font-size);
     }
     h2 {
       text-align: center;
@@ -33,14 +34,25 @@
     }
     .quiz-grid {
       display: flex;
-      gap: 20px;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap; /* Prevent wrapping */
+      overflow-x: auto;   /* Allow horizontal scroll if needed */
+      -webkit-overflow-scrolling: touch;
+      gap: 0px;
+      margin: 0 auto;
     }
     .column {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 0px; /* No vertical gap between label and dropzone */
+      flex: 1 1 45%;
+      min-width: 150px;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+    .label, .dropzone {
+      width: 100%;
+      font-size: clamp(13px, 2vw, 16px); /* Responsive font size */
     }
     .labels .label {
       font-weight: bold;
@@ -55,14 +67,15 @@
       text-align: center;
     }
     .dropzones .dropzone {
-      width: 200px;
-      height: 60px;
       border: 2px dashed #ccc;
-      border-radius: 6px;
+      border-radius: 0 0 6px 6px;
       background: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
+      height: auto;
+      min-height: 60px;
+      max-width: 200px;
     }
     .dropzone.hovered {
       border-color: #4a90e2;
@@ -77,36 +90,41 @@
       background-color: #ffe0e0 !important;
     }
     #checkBtn {
-      display: block;
-      margin: 30px auto 10px;
+      font-size: clamp(14px, 2vw, 18px);
       padding: 10px 20px;
-      font-size: 16px;
       background-color: #4a90e2;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      display: block;
+      margin: 50px auto 30px; /* więcej przestrzeni nad i pod */
+      max-width: 90%;
+      text-align: center;
     }
     #score {
       text-align: center;
       font-size: 18px;
       font-weight: bold;
     }
-   @media (max-width: 600px) {
-     .quiz-grid {
-       flex-wrap: nowrap;
-       overflow-x: auto;
-       -webkit-overflow-scrolling: touch;
-     }
-     .column {
-       flex: 0 0 auto;
-       margin-right: 20px;
-     }
-     .draggable, .dropzone, .label {
-       width: 200px;
-       font-size: 13px;
-     }
-   }
+    @media (max-width: 900px) {
+      :root {
+        --base-font-size: 15px;
+      }
+      .draggable, .label {
+        width: 45vw;
+        padding: 8px;
+      }
+    }
+    @media (max-width: 600px) {
+      :root {
+        --base-font-size: 14px;
+      }
+      .draggable, .label {
+        width: 90vw;
+        padding: 6px;
+      }
+    }
 
   </style>
 </head>

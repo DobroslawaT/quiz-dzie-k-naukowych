@@ -97,7 +97,26 @@
         width: 90%;
         font-size: 13px;
       }
+    
+      .quiz-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+    
+      .column {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    
+      .labels .label,
+      .dropzones .dropzone {
+        width: 45%;
+        margin: 5px;
+      }
     }
+
   </style>
 </head>
 <body>

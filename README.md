@@ -60,7 +60,6 @@
         border-radius: 6px 0 0 6px;
         text-align: center;
     }
-
     .dropzone {
         border: 2px dashed #ccc;
         background: #fff;

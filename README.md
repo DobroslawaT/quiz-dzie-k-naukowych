@@ -12,29 +12,34 @@
       text-align: center;
     }
     .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 30px;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .draggable {
-      background: #2d2d2d;
-      color: #f8f8f2;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: grab;
-      width: 250px;
-      font-size: 14px;
-      white-space: pre-wrap;
-      user-select: none;
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: grab;
+        font-size: 14px;
+        white-space: pre-wrap;
+        user-select: none;
+        flex: 1 1 300px; /* Allows wrapping and shrinking */
+        max-width: 250px;
+        box-sizing: border-box;
     }
-        .quiz-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(120px, 1fr));
-        gap: 0px;
-        max-width: 700px;
-        margin: 0 auto;
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      gap: 0px;
+      max-width: 700px;
+      margin: 0 auto;
     }
     .pair {
         display: contents;
@@ -102,14 +107,18 @@
             padding: 8px;
         }
     }
-
     @media (max-width: 600px) {
         .label, .dropzone {
             font-size: 14px;
             padding: 6px;
         }
     }
-
+    @media (max-width: 600px) {
+        .draggable {
+            flex: 1 1 100%;
+            padding: 6px;
+        }
+    }
   </style>
 </head>
 <body>

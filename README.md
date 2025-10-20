@@ -92,27 +92,21 @@
       font-size: 18px;
       font-weight: bold;
     }
-    @media (max-width: 600px) {
-      .draggable, .dropzone, .label {
-        width: 90%;
-        font-size: 13px;
-      }
-      .quiz-grid {
-        flex-direction: column;
-        align-items: center;
-      }
-      .column {
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .labels .label,
-      .dropzones .dropzone {
-        width: 45%;
-        margin: 5px;
-      }
-    }
+   @media (max-width: 600px) {
+     .quiz-grid {
+       flex-wrap: nowrap;
+       overflow-x: auto;
+       -webkit-overflow-scrolling: touch;
+     }
+     .column {
+       flex: 0 0 auto;
+       margin-right: 20px;
+     }
+     .draggable, .dropzone, .label {
+       width: 200px;
+       font-size: 13px;
+     }
+   }
 
   </style>
 </head>

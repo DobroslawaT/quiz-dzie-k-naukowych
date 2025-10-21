@@ -157,76 +157,118 @@
     <button id="checkBtn">Sprawdź odpowiedzi</button>
     <div id="score"></div>
     <script>
-        const draggableContainer = document.getElementById('draggables');
-        const dropzones = document.querySelectorAll('.dropzone');
-        function makeDraggable(el) {
+      const draggableContainer = document.getElementById('draggables');
+      const dropzones = document.querySelectorAll('.dropzone');
+      const isMobile = window.matchMedia("(max-width: 600px)").matches;
+      // --- Desktop Drag-and-Drop ---
+      function makeDraggable(el) {
             el.setAttribute('draggable', 'true');
             el.style.cursor = 'grab';
             el.addEventListener('dragstart', e => {
-                e.dataTransfer.setData('text/plain', el.id);
+                  e.dataTransfer.setData('text/plain', el.id);
             });
-        }
-        document.querySelectorAll('.draggable').forEach(makeDraggable);
-        dropzones.forEach(zone => {
-            zone.addEventListener('dragover', e => {
-                e.preventDefault();
-                zone.classList.add('hovered');
-            });
-            zone.addEventListener('dragleave', () => {
-                zone.classList.remove('hovered');
-            });
-            zone.addEventListener('drop', e => {
-                e.preventDefault();
-                zone.classList.remove('hovered');
-                const draggedId = e.dataTransfer.getData('text/plain');
-                const draggedEl = document.getElementById(draggedId);
-                if (draggedEl.parentElement) {
-                    draggedEl.parentElement.removeChild(draggedEl);
-                }
-                const existing = zone.querySelector('.draggable');
-                if (existing) {
-                    draggableContainer.appendChild(existing);
-                }
-                zone.innerHTML = '';
-                zone.appendChild(draggedEl);
-                zone.setAttribute('data-dropped', draggedId);
-                makeDraggable(draggedEl);
-            });
-        });
-        draggableContainer.addEventListener('dragover', e => {
-            e.preventDefault();
-        });
-        draggableContainer.addEventListener('drop', e => {
-            e.preventDefault();
-            const draggedId = e.dataTransfer.getData('text/plain');
-            const draggedEl = document.getElementById(draggedId);
+      }
+      if (!isMobile) {
+            document.querySelectorAll('.draggable').forEach(makeDraggable);
             dropzones.forEach(zone => {
-                if (zone.getAttribute('data-dropped') === draggedId) {
-                    zone.innerHTML = '';
-                    zone.removeAttribute('data-dropped');
-                    zone.classList.remove('correct', 'incorrect');
-                }
+                  zone.addEventListener('dragover', e => {
+                        e.preventDefault();
+                        zone.classList.add('hovered');
+                  });
+                  zone.addEventListener('dragleave', () => {
+                        zone.classList.remove('hovered');
+                  });
+                  zone.addEventListener('drop', e => {
+                        e.preventDefault();
+                        zone.classList.remove('hovered');
+                        const draggedId = e.dataTransfer.getData('text/plain');
+                        const draggedEl = document.getElementById(draggedId);
+                        if (draggedEl.parentElement) {
+                              draggedEl.parentElement.removeChild(draggedEl);
+                        }
+                        const existing = zone.querySelector('.draggable');
+                        if (existing) {
+                              draggableContainer.appendChild(existing);
+                        }
+                        zone.innerHTML = '';
+                        zone.appendChild(draggedEl);
+                        zone.setAttribute('data-dropped', draggedId);
+                        makeDraggable(draggedEl);
+                  });
             });
-            if (!draggableContainer.contains(draggedEl)) {
-                draggableContainer.appendChild(draggedEl);
-                makeDraggable(draggedEl);
-            }
-        });
-        document.getElementById('checkBtn').addEventListener('click', () => {
+            draggableContainer.addEventListener('dragover', e => e.preventDefault());
+            draggableContainer.addEventListener('drop', e => {
+                  e.preventDefault();
+                  const draggedId = e.dataTransfer.getData('text/plain');
+                  const draggedEl = document.getElementById(draggedId);
+                  dropzones.forEach(zone => {
+                        if (zone.getAttribute('data-dropped') === draggedId) {
+                              zone.innerHTML = '';
+                              zone.removeAttribute('data-dropped');
+                              zone.classList.remove('correct', 'incorrect');
+                        }
+                  });
+                  if (!draggableContainer.contains(draggedEl)) {
+                        draggableContainer.appendChild(draggedEl);
+                        makeDraggable(draggedEl);
+                  }
+            });
+      }
+      // --- Mobile Touch Drag-and-Drop ---
+      if (isMobile) {
+            document.querySelectorAll('.draggable').forEach(el => {
+                  let offsetX, offsetY;
+                  el.addEventListener('touchstart', e => {
+                        const touch = e.touches[0];
+                        offsetX = touch.clientX - el.getBoundingClientRect().left;
+                        offsetY = touch.clientY - el.getBoundingClientRect().top;
+                        el.style.position = 'absolute';
+                        el.style.zIndex = 1000;
+                        el.style.pointerEvents = 'none';
+                  });
+                  el.addEventListener('touchmove', e => {
+                        const touch = e.touches[0];
+                        el.style.left = `${touch.clientX - offsetX}px`;
+                        el.style.top = `${touch.clientY - offsetY}px`;
+                  });
+                  el.addEventListener('touchend', e => {
+                        el.style.zIndex = '';
+                        el.style.position = '';
+                        el.style.left = '';
+                        el.style.top = '';
+                        el.style.pointerEvents = '';
+                        const touch = e.changedTouches[0];
+                        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                        if (dropTarget && dropTarget.classList.contains('dropzone')) {
+                              const existing = dropTarget.querySelector('.draggable');
+                              if (existing) {
+                                    draggableContainer.appendChild(existing);
+                              }
+                              dropTarget.innerHTML = '';
+                              dropTarget.appendChild(el);
+                              dropTarget.setAttribute('data-dropped', el.id);
+                        } else {
+                              draggableContainer.appendChild(el);
+                        }
+                  });
+            });
+      }
+      // --- Check Answers ---
+      document.getElementById('checkBtn').addEventListener('click', () => {
             let score = 0;
             dropzones.forEach(zone => {
-                zone.classList.remove('correct', 'incorrect');
-                const expected = zone.getAttribute('data-accept');
-                const actual = zone.getAttribute('data-dropped');
-                if (expected === actual) {
-                    zone.classList.add('correct');
-                    score++;
-                } else {
-                    zone.classList.add('incorrect');
-                }
+                  zone.classList.remove('correct', 'incorrect');
+                  const expected = zone.getAttribute('data-accept');
+                  const actual = zone.getAttribute('data-dropped');
+                  if (expected === actual) {
+                        zone.classList.add('correct');
+                        score++;
+                  } else {
+                        zone.classList.add('incorrect');
+                  }
             });
             document.getElementById('score').textContent = `Twój wynik: ${score} / 7`;
-        });
+      });
     </script>
 </body>
 </html>

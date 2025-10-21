@@ -8,8 +8,12 @@
   </head>
   <body>
     <!-- Hero -->
-    <h1>Połącz kod z językami programowania</h1>
-    <p style="text-align: center">
+    <div class="logos">
+      <img src="./public/wsiz_logo_black.png" alt="Hero Image" height="55" />
+      <img src="./public/logo_black.png" alt="Hero Image" height="55" />
+    </div>
+    <h1 class="title">Połącz kod z językami programowania</h1>
+    <p class="description">
       Przeciągnij kod do poprawnego języka programowania.
     </p>
 
@@ -37,7 +41,13 @@
         <div class="draggable" draggable="true" id="css">
           h1 { color: blue; }
         </div>
+        <div class="draggable" draggable="true" id="rust">
+          println!("Hello, world!");
+        </div>
       </div>
+
+      <!-- Score -->
+      <div id="score"></div>
 
       <!-- Drop zones -->
       <div class="quiz-grid">
@@ -69,12 +79,15 @@
           <div class="label">CSS</div>
           <div class="dropzone" data-accept="css"></div>
         </div>
+        <div class="pair">
+          <div class="label">Rust</div>
+          <div class="dropzone" data-accept="rust"></div>
+        </div>
       </div>
     </div>
 
     <!-- Check button -->
     <button id="checkBtn">Sprawdź odpowiedzi</button>
-    <div id="score"></div>
 
     <script src="./script.js"></script>
   </body>

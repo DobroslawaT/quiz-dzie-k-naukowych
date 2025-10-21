@@ -1,51 +1,93 @@
-body {
-  font-size: 16px;
-  margin: 0;
-  padding: 0;
+* {
   font-family: sans-serif;
+  padding: 0;
   box-sizing: border-box;
+  margin: 0;
 }
 
-h1 {
-  text-align: center;
+body {
+  max-width: 1024px;
+  margin: 0 auto;
 }
+
+/* -------------------
+  Hero Styles
+------------------- */
+
+.logos {
+  margin-top: 24px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  margin: 12px 0;
+}
+
+.description {
+  text-align: center;
+  margin: 12px 0;
+  font-size: 18px;
+}
+
+/* -------------------
+  Quiz Styles
+------------------- */
 
 .quiz-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
-  max-width: 1000px;
+  gap: 15px;
+  max-width: 768px;
   margin: 0 auto;
   padding: 20px;
 }
+
+/* -------------------
+  Section 1: Draggables
+------------------- */
 .container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 4px;
   width: 100%;
+  text-align: center;
 }
+
 .draggable {
   background: #2d2d2d;
   color: #f8f8f2;
-  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
   border-radius: 8px;
   cursor: grab;
   font-size: 14px;
   user-select: none;
-  flex: 1 1 clamp(200px, 30%, 300px);
-  box-sizing: border-box;
+  flex: 1;
 }
+
+/* -------------------
+  Section 2: Dropzones
+------------------- */
 .quiz-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
-  gap: 0px;
+  gap: 4px;
   width: 100%;
 }
+
 .pair {
-  display: contents;
+  /* display: contents; */
+  display: flex;
+  flex-direction: column;
 }
+
 .label,
 .dropzone {
   width: 100%;
@@ -57,6 +99,7 @@ h1 {
   justify-content: center;
   min-height: 60px;
 }
+
 .label {
   background: #f0f0f0;
   font-weight: bold;
@@ -72,6 +115,10 @@ h1 {
   border-color: #4a90e2;
   background: #e6f0ff;
 }
+
+/* -------------------
+  Section 3: 
+------------------- */
 .correct {
   border-color: green !important;
   background-color: #e0ffe0 !important;
@@ -80,8 +127,9 @@ h1 {
   border-color: red !important;
   background-color: #ffe0e0 !important;
 }
+
 #checkBtn {
-  font-size: clamp(14px, 2vw, 18px);
+  font-size: 2rem;
   padding: 10px 20px;
   background-color: #4a90e2;
   color: white;
@@ -93,38 +141,9 @@ h1 {
   max-width: 90%;
   text-align: center;
 }
+
 #score {
   text-align: center;
-  font-size: 18px;
+  font-size: 2rem;
   font-weight: bold;
-}
-@media (max-width: 900px) {
-  .label,
-  .dropzone {
-    font-size: 15px;
-    padding: 8px;
-  }
-}
-@media (max-width: 600px) {
-  .label,
-  .dropzone {
-    font-size: 14px;
-    padding: 6px;
-  }
-  .container {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .draggable {
-    flex: 1 1 100%;
-    max-width: 90vw;
-    padding: 6px;
-    touch-action: none;
-  }
-}
-@media (max-width: 700px) {
-  .quiz-grid {
-    grid-template-columns: 40% 60%;
-  }
 }

@@ -217,6 +217,7 @@
             document.querySelectorAll('.draggable').forEach(el => {
                   let touchEl = null;
                   let scrollInterval = null;
+                  let isScrolling = false;
                   el.addEventListener('touchstart', e => {
                         const touch = e.touches[0];
                         touchEl = el.cloneNode(true);
@@ -240,15 +241,18 @@
                         }
                         const buffer = 50;
                         const scrollSpeed = 5;
-                        if (touch.clientY < buffer) {
+                        if (touch.clientY < buffer && !isScrolling) {
+                              isScrolling = true;
                               scrollInterval = setInterval(() => {
                                     window.scrollBy(0, -scrollSpeed);
-                              }, 16);
-                        } else if (touch.clientY > window.innerHeight - buffer) {
+                              }, 30);
+                        } else if (touch.clientY > window.innerHeight - buffer && !isScrolling) {
+                              isScrolling = true;
                               scrollInterval = setInterval(() => {
                                     window.scrollBy(0, scrollSpeed);
-                              }, 16);
-                        } else {
+                              }, 30);
+                        } else if (touch.clientY >= buffer && touch.clientY <= window.innerHeight - buffer) {
+                              isScrolling = false;
                               clearInterval(scrollInterval);
                         }
                   });
@@ -260,6 +264,7 @@
                               touchEl = null;
                         }
                         clearInterval(scrollInterval);
+                        isScrolling = false;
                         document.body.style.overflow = '';
                         if (dropTarget && dropTarget.classList.contains('dropzone')) {
                               const existing = dropTarget.querySelector('.draggable');

@@ -220,6 +220,9 @@
                   let scrollInterval = null;
                   let isScrolling = false;
                   el.addEventListener('touchstart', e => {
+                        if (isDragging) return;
+                        isDragging = true;
+                      
                         const touch = e.touches[0];
                         const rect = el.getBoundingClientRect();
                         touchEl = el.cloneNode(true);
@@ -261,6 +264,7 @@
                         }
                   });
                   el.addEventListener('touchend', e => {
+                        isDragging = false;
                         const touch = e.changedTouches[0];
                         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
                         if (touchEl) {

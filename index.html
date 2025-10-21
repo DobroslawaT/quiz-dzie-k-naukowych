@@ -221,39 +221,41 @@
                   let isScrolling = false;
                   el.addEventListener('touchstart', e => {
                         const touch = e.touches[0];
+                        const rect = el.getBoundingClientRect();
                         touchEl = el.cloneNode(true);
                         touchEl.id = el.id;
                         touchEl.classList.add('dragging');
                         touchEl.style.position = 'absolute';
-                        touchEl.style.left = `${touch.pageX}px`;
-                        touchEl.style.top = `${touch.pageY}px`;
+                        touchEl.style.width = `${rect.width}px`;
+                        touchEl.style.height = `${rect.height}px`;
+                        touchEl.style.left = `${touch.pageX - rect.width / 2}px`;
+                        touchEl.style.top = `${touch.pageY - rect.height / 2}px`;
                         touchEl.style.zIndex = 1000;
                         touchEl.style.pointerEvents = 'none';
-                        touchEl.style.width = `${el.offsetWidth}px`;
-                        touchEl.style.height = `${el.offsetHeight}px`;
                         document.body.appendChild(touchEl);
                         document.body.style.overflow = 'hidden';
                   });
                   el.addEventListener('touchmove', e => {
                         e.preventDefault();
                         const touch = e.touches[0];
+                        const rect = el.getBoundingClientRect();
                         if (touchEl) {
-                              touchEl.style.left = `${touch.clientX}px`;
-                              touchEl.style.top = `${touch.clientY}px`;
+                              touchEl.style.left = `${touch.pageX - rect.width / 2}px`;
+                              touchEl.style.top = `${touch.pageY - rect.height / 2}px`;
                         }
                         const buffer = 50;
                         const scrollSpeed = 5;
-                        if (touch.clientY < buffer && !isScrolling) {
+                        if (touch.pageY < buffer && !isScrolling) {
                               isScrolling = true;
                               scrollInterval = setInterval(() => {
                                     window.scrollBy(0, -scrollSpeed);
                               }, 30);
-                        } else if (touch.clientY > window.innerHeight - buffer && !isScrolling) {
+                        } else if (touch.pageY > window.innerHeight - buffer && !isScrolling) {
                               isScrolling = true;
                               scrollInterval = setInterval(() => {
                                     window.scrollBy(0, scrollSpeed);
                               }, 30);
-                        } else if (touch.clientY >= buffer && touch.clientY <= window.innerHeight - buffer) {
+                        } else if (touch.pageY >= buffer && touch.pageY <= window.innerHeight - buffer) {
                               isScrolling = false;
                               clearInterval(scrollInterval);
                         }

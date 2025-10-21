@@ -160,7 +160,6 @@
       const draggableContainer = document.getElementById('draggables');
       const dropzones = document.querySelectorAll('.dropzone');
       const isMobile = window.matchMedia("(max-width: 600px)").matches;
-      // --- Desktop Drag-and-Drop ---
       function makeDraggable(el) {
             el.setAttribute('draggable', 'true');
             el.style.cursor = 'grab';
@@ -214,10 +213,10 @@
                   }
             });
       }
-      // --- Mobile Touch Drag-and-Drop ---
       if (isMobile) {
             document.querySelectorAll('.draggable').forEach(el => {
                   let touchEl = null;
+                  let scrollInterval = null;
                   el.addEventListener('touchstart', e => {
                         const touch = e.touches[0];
                         touchEl = el.cloneNode(true);
@@ -231,12 +230,26 @@
                         touchEl.style.width = `${el.offsetWidth}px`;
                         touchEl.style.height = `${el.offsetHeight}px`;
                         document.body.appendChild(touchEl);
+                        document.body.style.overflow = 'hidden';
                   });
                   el.addEventListener('touchmove', e => {
                         const touch = e.touches[0];
                         if (touchEl) {
                               touchEl.style.left = `${touch.clientX}px`;
                               touchEl.style.top = `${touch.clientY}px`;
+                        }
+                        const buffer = 50;
+                        const scrollSpeed = 5;
+                        if (touch.clientY < buffer) {
+                              scrollInterval = setInterval(() => {
+                                    window.scrollBy(0, -scrollSpeed);
+                              }, 16);
+                        } else if (touch.clientY > window.innerHeight - buffer) {
+                              scrollInterval = setInterval(() => {
+                                    window.scrollBy(0, scrollSpeed);
+                              }, 16);
+                        } else {
+                              clearInterval(scrollInterval);
                         }
                   });
                   el.addEventListener('touchend', e => {
@@ -246,6 +259,8 @@
                               touchEl.remove();
                               touchEl = null;
                         }
+                        clearInterval(scrollInterval);
+                        document.body.style.overflow = '';
                         if (dropTarget && dropTarget.classList.contains('dropzone')) {
                               const existing = dropTarget.querySelector('.draggable');
                               if (existing) {
@@ -260,7 +275,6 @@
                   });
             });
       }
-      // --- Check Answers ---
       document.getElementById('checkBtn').addEventListener('click', () => {
             let score = 0;
             dropzones.forEach(zone => {

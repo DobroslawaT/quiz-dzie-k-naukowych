@@ -1,0 +1,134 @@
+body {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+* {
+  border: 1px solid red;
+}
+
+h1 {
+  text-align: center;
+}
+
+.quiz-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+.draggable {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 3rem;
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 14px;
+  user-select: none;
+  flex: 1 1 clamp(200px, 30%, 300px);
+  box-sizing: border-box;
+}
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 0px;
+  width: 100%;
+}
+.pair {
+  display: contents;
+}
+.label,
+.dropzone {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: clamp(13px, 2vw, 16px);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+}
+.label {
+  background: #f0f0f0;
+  font-weight: bold;
+  border-radius: 6px 0 0 6px;
+  text-align: center;
+}
+.dropzone {
+  border: 2px dashed #ccc;
+  background: #fff;
+  border-radius: 0 6px 6px 0;
+}
+.dropzone.hovered {
+  border-color: #4a90e2;
+  background: #e6f0ff;
+}
+.correct {
+  border-color: green !important;
+  background-color: #e0ffe0 !important;
+}
+.incorrect {
+  border-color: red !important;
+  background-color: #ffe0e0 !important;
+}
+#checkBtn {
+  font-size: clamp(14px, 2vw, 18px);
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto 10px;
+  max-width: 90%;
+  text-align: center;
+}
+#score {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+@media (max-width: 900px) {
+  .label,
+  .dropzone {
+    font-size: 15px;
+    padding: 8px;
+  }
+}
+@media (max-width: 600px) {
+  .label,
+  .dropzone {
+    font-size: 14px;
+    padding: 6px;
+  }
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .draggable {
+    flex: 1 1 100%;
+    max-width: 90vw;
+    padding: 6px;
+    touch-action: none;
+  }
+}
+@media (max-width: 700px) {
+  .quiz-grid {
+    grid-template-columns: 40% 60%;
+  }
+}

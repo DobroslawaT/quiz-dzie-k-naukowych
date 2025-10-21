@@ -217,28 +217,35 @@
       // --- Mobile Touch Drag-and-Drop ---
       if (isMobile) {
             document.querySelectorAll('.draggable').forEach(el => {
-                  let offsetX, offsetY;
+                  let touchEl = null;
                   el.addEventListener('touchstart', e => {
                         const touch = e.touches[0];
-                        offsetX = touch.clientX - el.getBoundingClientRect().left;
-                        offsetY = touch.clientY - el.getBoundingClientRect().top;
-                        el.style.position = 'absolute';
-                        el.style.zIndex = 1000;
-                        el.style.pointerEvents = 'none';
+                        touchEl = el.cloneNode(true);
+                        touchEl.id = el.id;
+                        touchEl.classList.add('dragging');
+                        touchEl.style.position = 'fixed';
+                        touchEl.style.left = `${touch.clientX}px`;
+                        touchEl.style.top = `${touch.clientY}px`;
+                        touchEl.style.zIndex = 1000;
+                        touchEl.style.pointerEvents = 'none';
+                        touchEl.style.width = `${el.offsetWidth}px`;
+                        touchEl.style.height = `${el.offsetHeight}px`;
+                        document.body.appendChild(touchEl);
                   });
                   el.addEventListener('touchmove', e => {
                         const touch = e.touches[0];
-                        el.style.left = `${touch.clientX - offsetX}px`;
-                        el.style.top = `${touch.clientY - offsetY}px`;
+                        if (touchEl) {
+                              touchEl.style.left = `${touch.clientX}px`;
+                              touchEl.style.top = `${touch.clientY}px`;
+                        }
                   });
                   el.addEventListener('touchend', e => {
-                        el.style.zIndex = '';
-                        el.style.position = '';
-                        el.style.left = '';
-                        el.style.top = '';
-                        el.style.pointerEvents = '';
                         const touch = e.changedTouches[0];
                         const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                        if (touchEl) {
+                              touchEl.remove();
+                              touchEl = null;
+                        }
                         if (dropTarget && dropTarget.classList.contains('dropzone')) {
                               const existing = dropTarget.querySelector('.draggable');
                               if (existing) {

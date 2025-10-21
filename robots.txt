@@ -1,0 +1,3 @@
+# Disallow evrything
+User-agent: *
+Disallow: /
